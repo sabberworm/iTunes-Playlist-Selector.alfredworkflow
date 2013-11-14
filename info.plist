@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>ch.ra-phi.alfred.playlist-selector</string>
+	<key>connections</key>
+	<dict>
+		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>E981CB77-4357-497A-A5E3-569476792908</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>raφ</string>
+	<key>description</key>
+	<string>Allows one to quickly jump to the desired iTunes playlist</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>iTunes Playlist Selector</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Playlist Selection</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>itpl</string>
+				<key>script</key>
+				<string>#!/usr/bin/env python
+
+# encoding: utf-8
+
+from subprocess import check_output
+import xml.etree.ElementTree as ET
+import re
+from sys import argv
+
+root = ET.Element('items')
+def add_item(name, uuid, filter):
+    if filter:
+        for f in filter:
+            if not f in name:
+                return
+    item = ET.SubElement(root, 'item')
+    item.attrib["uid"] = uuid
+    item.attrib["arg"] = uuid
+    ET.SubElement(item, "title").text = name
+    ET.SubElement(item, "icon").text = "icon.png"
+
+def add_items(lists, filter):
+    for playlist in lists:
+        playlist_info = name_id_pattern.search(playlist)
+        if not playlist_info:
+            continue
+        add_item(playlist_info.group(2), playlist_info.group(1), filter)
+
+def add_reload():
+    item = ET.SubElement(root, 'item')
+    item.attrib["uid"] = 'reload'
+    item.attrib["arg"] = 'reload'
+    ET.SubElement(item, "title").text = 'Reload Playlists'
+    ET.SubElement(item, "icon").text = "refresh.png"
+
+name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
+try:
+    file = open('./playlists.txt', 'r')
+    out = unicode(file.read(), 'utf-8')
+    lists = out.splitlines()
+except IOError:
+    lists = list()
+
+filter = "{query}"
+
+# For debugging
+if filter == "{qu" + "ery}":
+    if len(argv) &gt; 1:
+        filter = unicode(argv[1], 'utf-8')
+    else:
+        filter = ''
+
+if filter == '':
+    filter = None
+else:
+    filter = filter.split()
+
+if filter:
+    add_items(lists, filter)
+else:
+    # Add Reload item
+    add_reload()
+
+print '&lt;?xml version="1.0"?&gt;'
+print ET.tostring(root, 'utf-8')
+</string>
+				<key>title</key>
+				<string>Search iTunes Playlists</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E981CB77-4357-497A-A5E3-569476792908</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>#!/bin/bash
+
+q={query}
+
+if [ "$q" = "reload" ]; then
+	./read_playlists.applescript &gt; playlists.txt
+	echo "Reloaded Playlists"
+else
+	./reveal.applescript "$q"
+fi
+</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
+		<dict>
+			<key>ypos</key>
+			<real>210</real>
+		</dict>
+		<key>E981CB77-4357-497A-A5E3-569476792908</key>
+		<dict>
+			<key>ypos</key>
+			<real>140</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
