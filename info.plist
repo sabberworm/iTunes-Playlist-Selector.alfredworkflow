@@ -91,16 +91,22 @@ def add_item(name, uuid, icon):
     ET.SubElement(item, "title").text = name
     ET.SubElement(item, "icon").text = icon
 
+def check_filter(filter, name):
+    name = name.lower()
+    if filter:
+        for f in filter:
+            if not f.lower() in name:
+                return False
+    return True
+
 def add_items(lists, filter):
     for playlist in lists:
         playlist_info = name_id_pattern.search(playlist)
         name = playlist_info.group(2)
         if not playlist_info:
             continue
-        if filter:
-            for f in filter:
-                if not f in name:
-                    continue
+        if not check_filter(filter, name):
+            continue
         add_item(name, playlist_info.group(1), "icon.png")
 
 def add_reload():

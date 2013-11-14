@@ -16,9 +16,10 @@ def add_item(name, uuid, icon):
     ET.SubElement(item, "icon").text = icon
 
 def check_filter(filter, name):
+    name = name.lower()
     if filter:
         for f in filter:
-            if not f in name:
+            if not f.lower() in name:
                 return False
     return True
 
