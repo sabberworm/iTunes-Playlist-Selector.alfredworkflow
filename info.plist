@@ -84,30 +84,27 @@ import re
 from sys import argv
 
 root = ET.Element('items')
-def add_item(name, uuid, filter):
-    if filter:
-        for f in filter:
-            if not f in name:
-                return
+def add_item(name, uuid, icon):
     item = ET.SubElement(root, 'item')
     item.attrib["uid"] = uuid
     item.attrib["arg"] = uuid
     ET.SubElement(item, "title").text = name
-    ET.SubElement(item, "icon").text = "icon.png"
+    ET.SubElement(item, "icon").text = icon
 
 def add_items(lists, filter):
     for playlist in lists:
         playlist_info = name_id_pattern.search(playlist)
+        name = playlist_info.group(2)
         if not playlist_info:
             continue
-        add_item(playlist_info.group(2), playlist_info.group(1), filter)
+        if filter:
+            for f in filter:
+                if not f in name:
+                    continue
+        add_item(name, playlist_info.group(1), "icon.png")
 
 def add_reload():
-    item = ET.SubElement(root, 'item')
-    item.attrib["uid"] = 'reload'
-    item.attrib["arg"] = 'reload'
-    ET.SubElement(item, "title").text = 'Reload Playlists'
-    ET.SubElement(item, "icon").text = "refresh.png"
+    add_item('Reload Playlists', 'reload', 'reload.png')
 
 name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
 try:
@@ -189,12 +186,12 @@ fi
 		<key>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</key>
 		<dict>
 			<key>ypos</key>
-			<real>120</real>
+			<real>140</real>
 		</dict>
 		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
 		<dict>
 			<key>ypos</key>
-			<real>210</real>
+			<real>140</real>
 		</dict>
 		<key>E981CB77-4357-497A-A5E3-569476792908</key>
 		<dict>

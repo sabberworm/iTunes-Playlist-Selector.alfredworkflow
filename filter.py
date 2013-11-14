@@ -8,30 +8,32 @@ import re
 from sys import argv
 
 root = ET.Element('items')
-def add_item(name, uuid, filter):
-    if filter:
-        for f in filter:
-            if not f in name:
-                return
+def add_item(name, uuid, icon):
     item = ET.SubElement(root, 'item')
     item.attrib["uid"] = uuid
     item.attrib["arg"] = uuid
     ET.SubElement(item, "title").text = name
-    ET.SubElement(item, "icon").text = "icon.png"
+    ET.SubElement(item, "icon").text = icon
+
+def check_filter(filter, name):
+    if filter:
+        for f in filter:
+            if not f in name:
+                return False
+    return True
 
 def add_items(lists, filter):
     for playlist in lists:
         playlist_info = name_id_pattern.search(playlist)
+        name = playlist_info.group(2)
         if not playlist_info:
             continue
-        add_item(playlist_info.group(2), playlist_info.group(1), filter)
+        if not check_filter(filter, name):
+            continue
+        add_item(name, playlist_info.group(1), "icon.png")
 
 def add_reload():
-    item = ET.SubElement(root, 'item')
-    item.attrib["uid"] = 'reload'
-    item.attrib["arg"] = 'reload'
-    ET.SubElement(item, "title").text = 'Reload Playlists'
-    ET.SubElement(item, "icon").text = "refresh.png"
+    add_item('Reload Playlists', 'reload', 'reload.png')
 
 name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
 try:
