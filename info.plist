@@ -32,7 +32,7 @@
 	<key>createdby</key>
 	<string>raφ</string>
 	<key>description</key>
-	<string>Allows one to quickly jump to the desired iTunes playlist</string>
+	<string>Allows one to quickly jump to the desired iTunes playlist without playing it</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
