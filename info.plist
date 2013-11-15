@@ -6,6 +6,17 @@
 	<string>ch.ra-phi.alfred.playlist-selector</string>
 	<key>connections</key>
 	<dict>
+		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E981CB77-4357-497A-A5E3-569476792908</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
 		<array>
 			<dict>
@@ -61,6 +72,58 @@
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
 			<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>hotkey</key>
+				<integer>35</integer>
+				<key>hotmod</key>
+				<integer>1572864</integer>
+				<key>hotstring</key>
+				<string>P</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>#!/bin/bash
+
+q={query}
+
+if [ "$q" = "reload" ]; then
+	./read_playlists.applescript &gt; playlists.txt
+	echo "Reloaded Playlists"
+else
+	./reveal.applescript "$q"
+fi
+</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -157,39 +220,17 @@ print ET.tostring(root, 'utf-8')
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>#!/bin/bash
-
-q={query}
-
-if [ "$q" = "reload" ]; then
-	./read_playlists.applescript &gt; playlists.txt
-	echo "Reloaded Playlists"
-else
-	./reveal.applescript "$q"
-fi
-</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
 		<key>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</key>
+		<dict>
+			<key>ypos</key>
+			<real>140</real>
+		</dict>
+		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
 		<dict>
 			<key>ypos</key>
 			<real>140</real>
