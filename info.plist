@@ -8,6 +8,36 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>197BEF87-638C-440F-AF17-8AF7492E50C3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>486F9D12-A147-47D4-82C2-37E1A880B466</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>486F9D12-A147-47D4-82C2-37E1A880B466</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>326B4F25-51F4-4121-81DA-395FAF975CEC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
 		<array>
 			<dict>
@@ -76,33 +106,6 @@
 			<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
 			<key>version</key>
 			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>hotkey</key>
-				<integer>35</integer>
-				<key>hotmod</key>
-				<integer>1572864</integer>
-				<key>hotstring</key>
-				<string>P</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -234,6 +237,193 @@ print ET.tostring(root, 'utf-8')
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>hotkey</key>
+				<integer>35</integer>
+				<key>hotmod</key>
+				<integer>1572864</integer>
+				<key>hotstring</key>
+				<string>P</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>#!/bin/bash
+
+q={query}
+
+if [ "$q" = "reload" ]; then
+	./read_playlists.applescript &gt; playlists.txt
+	echo "Reloaded Playlists"
+else
+	./backup.js "$q"
+fi
+</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>486F9D12-A147-47D4-82C2-37E1A880B466</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>plbck</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>script</key>
+				<string>#!/usr/bin/env python
+
+# encoding: utf-8
+
+from subprocess import check_output
+import xml.etree.ElementTree as ET
+import re
+from sys import argv
+
+root = ET.Element('items')
+def add_item(name, uuid, icon):
+    item = ET.SubElement(root, 'item')
+    item.attrib["uid"] = uuid
+    item.attrib["arg"] = uuid
+    ET.SubElement(item, "title").text = name
+    ET.SubElement(item, "icon").text = icon
+
+def check_filter(filter, name):
+    name = name.lower()
+    if filter:
+        for f in filter:
+            if not f.lower() in name:
+                return False
+    return True
+
+def add_items(lists, filter):
+    for playlist in lists:
+        playlist_info = name_id_pattern.search(playlist)
+        name = playlist_info.group(2)
+        if not playlist_info:
+            continue
+        if not check_filter(filter, name):
+            continue
+        add_item(name, playlist_info.group(1), "icon.png")
+
+def add_reload():
+    add_item('Reload Playlists', 'reload', 'reload.png')
+
+name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
+try:
+    file = open('./playlists.txt', 'r')
+    out = unicode(file.read(), 'utf-8')
+    lists = out.splitlines()
+except IOError:
+    lists = list()
+
+filter = "{query}"
+
+# For debugging
+if filter == "{qu" + "ery}":
+    if len(argv) &gt; 1:
+        filter = unicode(argv[1], 'utf-8')
+    else:
+        filter = ''
+
+if filter == '':
+    filter = None
+else:
+    filter = filter.split()
+
+add_items(lists, filter)
+
+print '&lt;?xml version="1.0"?&gt;'
+print ET.tostring(root, 'utf-8')
+</string>
+				<key>title</key>
+				<string>Back Up iTunes Playlists</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>197BEF87-638C-440F-AF17-8AF7492E50C3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>326B4F25-51F4-4121-81DA-395FAF975CEC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -244,10 +434,30 @@ print ET.tostring(root, 'utf-8')
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
+		<key>197BEF87-638C-440F-AF17-8AF7492E50C3</key>
+		<dict>
+			<key>ypos</key>
+			<real>270</real>
+		</dict>
+		<key>326B4F25-51F4-4121-81DA-395FAF975CEC</key>
+		<dict>
+			<key>ypos</key>
+			<real>380</real>
+		</dict>
+		<key>486F9D12-A147-47D4-82C2-37E1A880B466</key>
+		<dict>
+			<key>ypos</key>
+			<real>270</real>
+		</dict>
 		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
 		<dict>
 			<key>ypos</key>
 			<real>140</real>
+		</dict>
+		<key>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</key>
+		<dict>
+			<key>ypos</key>
+			<real>270</real>
 		</dict>
 		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
 		<dict>
