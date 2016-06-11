@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>ch.ra-phi.alfred.playlist-selector</string>
+	<key>category</key>
+	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
@@ -92,17 +94,21 @@
 				<false/>
 				<key>modsmode</key>
 				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.hotkey</string>
 			<key>uid</key>
 			<string>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
@@ -136,6 +142,14 @@ fi
 				<integer>68</integer>
 				<key>keyword</key>
 				<string>itpl</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
 				<key>script</key>
 				<string>#!/usr/bin/env python
 
