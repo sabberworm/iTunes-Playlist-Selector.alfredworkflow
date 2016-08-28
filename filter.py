@@ -44,21 +44,15 @@ try:
 except IOError:
     lists = list()
 
-filter = "{query}"
-
-# For debugging
-if filter == "{qu" + "ery}":
-    if len(argv) > 1:
-        filter = unicode(argv[1], 'utf-8')
-    else:
-        filter = ''
+filter = unicode(argv[1], 'utf-8')
+disable_reload = len(argv) > 2 and argv[2] == 'false'
 
 if filter == '':
     filter = None
 else:
     filter = filter.split()
 
-if filter:
+if filter or disable_reload:
     add_items(lists, filter)
 else:
     # Add Reload item

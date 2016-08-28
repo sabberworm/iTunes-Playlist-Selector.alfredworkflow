@@ -17,6 +17,21 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>2C7B1432-21F9-4210-AD5E-52481AEE3FC1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>AA579493-F3B8-43FC-BA6C-FE1A0114EDA8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 		<key>486F9D12-A147-47D4-82C2-37E1A880B466</key>
@@ -28,6 +43,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -36,6 +53,31 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>AA579493-F3B8-43FC-BA6C-FE1A0114EDA8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>326B4F25-51F4-4121-81DA-395FAF975CEC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
@@ -47,6 +89,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
@@ -58,6 +102,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 		<key>E981CB77-4357-497A-A5E3-569476792908</key>
@@ -69,6 +115,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
 	</dict>
@@ -82,161 +130,6 @@
 	<string>iTunes Playlist Selector</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<true/>
-				<key>output</key>
-				<integer>0</integer>
-				<key>removeextension</key>
-				<false/>
-				<key>sticky</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Playlist Selection</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>#!/bin/bash
-
-q={query}
-
-if [ "$q" = "reload" ]; then
-	./read_playlists.applescript &gt; playlists.txt
-	echo "Reloaded Playlists"
-else
-	./reveal.applescript "$q"
-fi
-</string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>keyword</key>
-				<string>itpl</string>
-				<key>queuedelaycustom</key>
-				<integer>1</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>script</key>
-				<string>#!/usr/bin/env python
-
-# encoding: utf-8
-
-from subprocess import check_output
-import xml.etree.ElementTree as ET
-import re
-from sys import argv
-
-root = ET.Element('items')
-def add_item(name, uuid, icon):
-    item = ET.SubElement(root, 'item')
-    item.attrib["uid"] = uuid
-    item.attrib["arg"] = uuid
-    ET.SubElement(item, "title").text = name
-    ET.SubElement(item, "icon").text = icon
-
-def check_filter(filter, name):
-    name = name.lower()
-    if filter:
-        for f in filter:
-            if not f.lower() in name:
-                return False
-    return True
-
-def add_items(lists, filter):
-    for playlist in lists:
-        playlist_info = name_id_pattern.search(playlist)
-        name = playlist_info.group(2)
-        if not playlist_info:
-            continue
-        if not check_filter(filter, name):
-            continue
-        add_item(name, playlist_info.group(1), "icon.png")
-
-def add_reload():
-    add_item('Reload Playlists', 'reload', 'reload.png')
-
-name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
-try:
-    file = open('./playlists.txt', 'r')
-    out = unicode(file.read(), 'utf-8')
-    lists = out.splitlines()
-except IOError:
-    lists = list()
-
-filter = "{query}"
-
-# For debugging
-if filter == "{qu" + "ery}":
-    if len(argv) &gt; 1:
-        filter = unicode(argv[1], 'utf-8')
-    else:
-        filter = ''
-
-if filter == '':
-    filter = None
-else:
-    filter = filter.split()
-
-if filter:
-    add_items(lists, filter)
-else:
-    # Add Reload item
-    add_reload()
-
-print '&lt;?xml version="1.0"?&gt;'
-print ET.tostring(root, 'utf-8')
-</string>
-				<key>title</key>
-				<string>Search iTunes Playlists</string>
-				<key>type</key>
-				<integer>3</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>E981CB77-4357-497A-A5E3-569476792908</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -262,7 +155,7 @@ print ET.tostring(root, 'utf-8')
 			<key>uid</key>
 			<string>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -280,41 +173,34 @@ if [ "$q" = "reload" ]; then
 	./read_playlists.applescript &gt; playlists.txt
 	echo "Reloaded Playlists"
 else
-	./backup.js "$q"
+	./reveal.applescript "$q"
 fi
 </string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>486F9D12-A147-47D4-82C2-37E1A880B466</string>
+			<string>E0C6A322-09B8-4D27-A93E-E41F4C176222</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
+				<key>alfredfiltersresults</key>
 				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>keyword</key>
-				<string>plbck</string>
+				<string>itpl</string>
 				<key>queuedelaycustom</key>
 				<integer>1</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -323,76 +209,107 @@ fi
 				<integer>0</integer>
 				<key>queuemode</key>
 				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
 				<key>script</key>
-				<string>#!/usr/bin/env python
-
-# encoding: utf-8
-
-from subprocess import check_output
-import xml.etree.ElementTree as ET
-import re
-from sys import argv
-
-root = ET.Element('items')
-def add_item(name, uuid, icon):
-    item = ET.SubElement(root, 'item')
-    item.attrib["uid"] = uuid
-    item.attrib["arg"] = uuid
-    ET.SubElement(item, "title").text = name
-    ET.SubElement(item, "icon").text = icon
-
-def check_filter(filter, name):
-    name = name.lower()
-    if filter:
-        for f in filter:
-            if not f.lower() in name:
-                return False
-    return True
-
-def add_items(lists, filter):
-    for playlist in lists:
-        playlist_info = name_id_pattern.search(playlist)
-        name = playlist_info.group(2)
-        if not playlist_info:
-            continue
-        if not check_filter(filter, name):
-            continue
-        add_item(name, playlist_info.group(1), "icon.png")
-
-def add_reload():
-    add_item('Reload Playlists', 'reload', 'reload.png')
-
-name_id_pattern = re.compile(r'^([0-9A-F]+):(.*)$')
-try:
-    file = open('./playlists.txt', 'r')
-    out = unicode(file.read(), 'utf-8')
-    lists = out.splitlines()
-except IOError:
-    lists = list()
-
-filter = "{query}"
-
-# For debugging
-if filter == "{qu" + "ery}":
-    if len(argv) &gt; 1:
-        filter = unicode(argv[1], 'utf-8')
-    else:
-        filter = ''
-
-if filter == '':
-    filter = None
-else:
-    filter = filter.split()
-
-add_items(lists, filter)
-
-print '&lt;?xml version="1.0"?&gt;'
-print ET.tostring(root, 'utf-8')
-</string>
+				<string>exec ./filter.py "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search iTunes Playlists</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E981CB77-4357-497A-A5E3-569476792908</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Playlist Selection</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>./backup.js "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>486F9D12-A147-47D4-82C2-37E1A880B466</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>plbck</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>exec ./filter.py "$1" false</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
 				<key>title</key>
 				<string>Back Up iTunes Playlists</string>
 				<key>type</key>
-				<integer>3</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -401,7 +318,24 @@ print ET.tostring(root, 'utf-8')
 			<key>uid</key>
 			<string>197BEF87-638C-440F-AF17-8AF7492E50C3</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string></string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -410,19 +344,88 @@ print ET.tostring(root, 'utf-8')
 				<false/>
 				<key>onlyshowifquerypopulated</key>
 				<false/>
-				<key>output</key>
-				<integer>0</integer>
 				<key>removeextension</key>
 				<false/>
-				<key>sticky</key>
-				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
 			<string>326B4F25-51F4-4121-81DA-395FAF975CEC</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>prev="$(./backup.js "$1")"
+./restore.js "$1"
+echo "Playlist restored. Previous contents:"
+echo "$prev"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>AA579493-F3B8-43FC-BA6C-FE1A0114EDA8</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>plres</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>exec ./filter.py "$1" false</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Restore iTunes Playlists</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2C7B1432-21F9-4210-AD5E-52481AEE3FC1</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -431,41 +434,71 @@ print ET.tostring(root, 'utf-8')
 	<dict>
 		<key>06F1A541-F2E1-4E8B-8C23-D1F6BD3874A7</key>
 		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
 		<key>197BEF87-638C-440F-AF17-8AF7492E50C3</key>
 		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
 			<key>ypos</key>
-			<real>270</real>
+			<integer>270</integer>
+		</dict>
+		<key>2C7B1432-21F9-4210-AD5E-52481AEE3FC1</key>
+		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
+			<key>ypos</key>
+			<integer>400</integer>
 		</dict>
 		<key>326B4F25-51F4-4121-81DA-395FAF975CEC</key>
 		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
 			<key>ypos</key>
-			<real>380</real>
+			<integer>400</integer>
 		</dict>
 		<key>486F9D12-A147-47D4-82C2-37E1A880B466</key>
 		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
 			<key>ypos</key>
-			<real>270</real>
+			<integer>270</integer>
+		</dict>
+		<key>AA579493-F3B8-43FC-BA6C-FE1A0114EDA8</key>
+		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
+			<key>ypos</key>
+			<integer>400</integer>
 		</dict>
 		<key>C28CE3D5-D900-4AF6-8F4C-8B0E939C9405</key>
 		<dict>
+			<key>xpos</key>
+			<integer>100</integer>
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
 		<key>CE28CCD9-367C-438F-8029-1D5DAAAF66EC</key>
 		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
 			<key>ypos</key>
 			<real>270</real>
 		</dict>
 		<key>E0C6A322-09B8-4D27-A93E-E41F4C176222</key>
 		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
 		<key>E981CB77-4357-497A-A5E3-569476792908</key>
 		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
 			<key>ypos</key>
 			<real>140</real>
 		</dict>
