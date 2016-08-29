@@ -19,8 +19,9 @@ function run(theId) {
 	var ids = contents.split(/[\n\r]+/g);
 	
 	if(ids[0].indexOf(':') > -1) {
+		var header = ids.shift();
 		// This should contain the playlist ID/name
-		if(ids[0].split(':')[0] !== theId) {
+		if(header.split(':')[0] !== theId) {
 			console.log('Playlist to be restored does not match selected playlist. Leave off playlist descriptor to force.');
 		}
 	}
