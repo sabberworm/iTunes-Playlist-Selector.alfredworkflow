@@ -170,12 +170,11 @@
 q={query}
 
 if [ "$q" = "reload" ]; then
-	./read_playlists.applescript &gt; playlists.txt
+	./read_playlists.js 2&gt; playlists.txt
 	echo "Reloaded Playlists"
 else
 	./reveal.applescript "$q"
-fi
-</string>
+fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>

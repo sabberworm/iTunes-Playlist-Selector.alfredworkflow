@@ -54,13 +54,8 @@ app.audioCDPlaylists().forEach(function(playlist) {
 	};
 });
 
-app.playlists().forEach(function(playlist) {
-	var id = playlist.persistentID();
-	if(id in playlists) {
-		return;
-	}
-	// We have gone through all other types of playlists, only folders left
-	playlists[id] = {
+app.playlists.whose({_match: [ObjectSpecifier().class, 'folderPlaylist']})().forEach(function(playlist) {
+	playlists[playlist.persistentID()] = {
 		name: playlist.name(),
 		folder: true
 	};
