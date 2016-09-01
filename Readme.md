@@ -1,4 +1,4 @@
-# iTunes Playlist Selector Alfred 2 Workflow
+# iTunes Playlist Selector Alfred 3 Workflow
 
 Lets you filter your iTunes playlist and show them afterwards. Call its script filter using the “itpl” keyword.
 
