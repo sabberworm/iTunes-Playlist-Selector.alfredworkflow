@@ -11,7 +11,7 @@ function run(theId) {
 		return;
 	}
 	
-	return `${playlist.persistentID()}: ${playlist.name()}\n` + playlist.fileTracks().map(function(track) {
+	return `${playlist.persistentID()}: ${playlist.name()}\n` + playlist.tracks().map(function(track) {
 		return track.persistentID();
 	}).join('\n');	
 }
