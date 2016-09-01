@@ -78,19 +78,6 @@
         "source": "github.readme"
       },
       "html": "<h1>iTunes Playlist Selector Alfred 2 Workflow</h1>\n<p>Lets you filter your iTunes playlist and show them afterwards. Call its script filter using the &#x201C;itpl&#x201D; keyword.</p>\n<p>To initialize, choose the &#x201C;Reload Playlists&#x201D; options to cache a list of playlists in a text file. After that, you&#x2019;re all set.</p>\n<h2>Backing up playlists</h2>\n<p>There is a back up script (called with &#x201C;plbck&#x201D;). It will let you select a playlist and then copy a list of song IDs to the clipboard from where you can paste it to your backup file.</p>\n<h2>Restoring playlists</h2>\n<p>Copy a list of song IDs you have previously backed up to the clipboard and then use the restore script (&#x201C;plres&#x201D;). It will clear the selected playlist and fill it with the songs from the clipboard. Afterwards, the clipboard will contain the previous contents of the playlist (as well as messages for any potential errors that occurred).</p>\n<h2>Acknowledgements</h2>\n<p>Icons taken from the <a href=\"http://adamwhitcroft.com/batch/\">Batch icon set</a> by Adam Whitcroft</p>\n"
-    },
-    {
-      "component": "footer",
-      "links": [
-        {
-          "href": "https://github.com/sabberworm/iTunes-Playlist-Selector.alfredworkflow",
-          "text": "GitHub"
-        },
-        {
-          "href": "https://github.com/sabberworm",
-          "text": "sabberworm"
-        }
-      ]
     }
   ]
 }
