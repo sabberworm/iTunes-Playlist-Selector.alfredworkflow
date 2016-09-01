@@ -1,0 +1,96 @@
+{
+  "name": "sabberworm/iTunes-Playlist-Selector.alfredworkflow",
+  "version": "0.1.4",
+  "libraries": {
+    "xv": "^1.1.19"
+  },
+  "title": "Alfred Workflow: iTunes Playlist Selector",
+  "branch": "",
+  "style": {
+    "name": "Future",
+    "componentSet": {
+      "nav": "nav/BasicNav",
+      "header": "header/BannerHeader",
+      "article": "article/BasicArticle",
+      "footer": "footer/BasicFooter"
+    },
+    "fontFamily": "\"Avenir Next\", Helvetica, sans-serif",
+    "heading": {
+      "fontWeight": 500,
+      "textTransform": "uppercase",
+      "letterSpacing": "0.2em"
+    },
+    "alternativeText": {
+      "textTransform": "uppercase",
+      "fontWeight": 400,
+      "letterSpacing": "0.2em",
+      "opacity": 0.75
+    },
+    "colors": {
+      "text": "#333",
+      "background": "#fff",
+      "primary": "#666",
+      "secondary": "#888",
+      "highlight": "#1f80ff",
+      "muted": "#f6f6f6",
+      "border": "#eee"
+    },
+    "layout": {
+      "centered": true,
+      "maxWidth": 1024,
+      "bannerHeight": "80vh"
+    }
+  },
+  "content": [
+    {
+      "component": "nav",
+      "links": [
+        {
+          "href": "https://alpha.app.net/raphi/post/14985673",
+          "text": "Home"
+        },
+        {
+          "href": "https://github.com/sabberworm/iTunes-Playlist-Selector.alfredworkflow",
+          "text": "GitHub"
+        }
+      ]
+    },
+    {
+      "component": "header",
+      "heading": "iTunes-Playlist-Selector.alfredworkflow",
+      "subhead": "Allows one to quickly jump to the desired iTunes playlist without playing it",
+      "children": [
+        {
+          "component": "ui/TweetButton",
+          "text": "iTunes-Playlist-Selector.alfredworkflow: Allows one to quickly jump to the desired iTunes playlist without playing it",
+          "url": "https://alpha.app.net/raphi/post/14985673"
+        },
+        {
+          "component": "ui/GithubButton",
+          "user": "sabberworm",
+          "repo": "iTunes-Playlist-Selector.alfredworkflow"
+        }
+      ]
+    },
+    {
+      "component": "article",
+      "metadata": {
+        "source": "github.readme"
+      },
+      "html": "<h1>iTunes Playlist Selector Alfred 2 Workflow</h1>\n<p>Lets you filter your iTunes playlist and show them afterwards. Call its script filter using the &#x201C;itpl&#x201D; keyword.</p>\n<p>To initialize, choose the &#x201C;Reload Playlists&#x201D; options to cache a list of playlists in a text file. After that, you&#x2019;re all set.</p>\n<h2>Acknowledgements</h2>\n<p>Icons taken from the <a href=\"http://adamwhitcroft.com/batch/\">Batch icon set</a> by Adam Whitcroft</p>\n"
+    },
+    {
+      "component": "footer",
+      "links": [
+        {
+          "href": "https://github.com/sabberworm/iTunes-Playlist-Selector.alfredworkflow",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://github.com/sabberworm",
+          "text": "sabberworm"
+        }
+      ]
+    }
+  ]
+}
