@@ -1,12 +1,13 @@
 #!/usr/bin/osascript -l JavaScript
 
 const FLAGS = {
-	smart: 's',
 	library: 'l',
 	folder: 'f',
-	subscription: 'S',
+	subscription: 'b',
 	user: 'u',
+	smart: 's',
 	genius: 'g',
+	shared: 'h',
 	radio: 'r',
 	cd: 'c'
 };
@@ -67,6 +68,8 @@ playlists = Object.keys(playlists).filter(function(id) {
 	var flags = '';
 	for(var f in FLAGS) {
 		if(playlists[id][f]) {
+			flags += FLAGS[f].toUpperCase();
+		} else {
 			flags += FLAGS[f];
 		}
 	}

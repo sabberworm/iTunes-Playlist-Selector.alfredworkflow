@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import re
 from sys import argv
 
-NAME_ID_PATTERN = re.compile(r'^([0-9A-F]+):([slfSugrc]+):(.*)$')
+NAME_ID_PATTERN = re.compile(r'^([0-9A-F]+):(\w+):(.*)$')
 
 root = ET.Element('items')
 def add_item(name, uuid, icon):
@@ -28,10 +28,10 @@ def check_filter(filter, name):
 def add_items(lists, filter, flag_filter):
     for playlist in lists:
         playlist_info = NAME_ID_PATTERN.search(playlist)
-        name = playlist_info.group(3)
-        flags = playlist_info.group(2)
         if playlist_info == None:
             continue
+        name = playlist_info.group(3)
+        flags = playlist_info.group(2)
         if not check_filter(filter, name):
             continue
         flag_filter_matches = True
@@ -39,18 +39,20 @@ def add_items(lists, filter, flag_filter):
           if flags.find(flag) == -1:
             flag_filter_matches = False
             break
+        if not flag_filter_matches:
+          continue
         icon = 'icon.png'
-        if(flags.find('s') > -1):
-          icon = 'smart.png'
-        if(flags.find('l') > -1):
-          icon = 'library.png'
-        if(flags.find('f') > -1):
-          icon = 'folder.png'
         if(flags.find('S') > -1):
+          icon = 'smart.png'
+        if(flags.find('L') > -1):
+          icon = 'library.png'
+        if(flags.find('F') > -1):
+          icon = 'folder.png'
+        if(flags.find('B') > -1):
           icon = 'subscription.png'
-        if(flags.find('c') > -1):
+        if(flags.find('C') > -1):
           icon = 'cd.png'
-        if(flags.find('r') > -1):
+        if(flags.find('R') > -1):
           icon = 'radio.png'
         add_item(name, playlist_info.group(1), icon)
 
