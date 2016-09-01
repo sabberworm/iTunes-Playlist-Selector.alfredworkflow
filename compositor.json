@@ -57,7 +57,7 @@
     },
     {
       "component": "header",
-      "heading": "iTunes-Playlist-Selector.alfredworkflow",
+      "heading": "Alfred Workflow: iTunes Playlist Selector",
       "subhead": "Allows one to quickly jump to the desired iTunes playlist without playing it",
       "children": [
         {
