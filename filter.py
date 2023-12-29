@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # encoding: utf-8
 
@@ -10,12 +10,15 @@ from sys import argv
 NAME_ID_PATTERN = re.compile(r'^([0-9A-F]+):(\w+):(.*)$')
 
 root = ET.Element('items')
+
+
 def add_item(name, uuid, icon):
     item = ET.SubElement(root, 'item')
     item.attrib["uid"] = uuid
     item.attrib["arg"] = uuid
     ET.SubElement(item, "title").text = name
     ET.SubElement(item, "icon").text = icon
+
 
 def check_filter(filter, name):
     name = name.lower()
@@ -24,6 +27,7 @@ def check_filter(filter, name):
             if not f.lower() in name:
                 return False
     return True
+
 
 def add_items(lists, filter, flag_filter):
     for playlist in lists:
@@ -36,37 +40,39 @@ def add_items(lists, filter, flag_filter):
             continue
         flag_filter_matches = True
         for flag in flag_filter:
-          if flags.find(flag) == -1:
-            flag_filter_matches = False
-            break
+            if flags.find(flag) == -1:
+                flag_filter_matches = False
+                break
         if not flag_filter_matches:
-          continue
+            continue
         icon = 'icon.png'
-        if(flags.find('S') > -1):
-          icon = 'smart.png'
-        if(flags.find('L') > -1):
-          icon = 'library.png'
-        if(flags.find('F') > -1):
-          icon = 'folder.png'
-        if(flags.find('B') > -1):
-          icon = 'subscription.png'
-        if(flags.find('C') > -1):
-          icon = 'cd.png'
-        if(flags.find('R') > -1):
-          icon = 'radio.png'
+        if (flags.find('S') > -1):
+            icon = 'smart.png'
+        if (flags.find('L') > -1):
+            icon = 'library.png'
+        if (flags.find('F') > -1):
+            icon = 'folder.png'
+        if (flags.find('B') > -1):
+            icon = 'subscription.png'
+        if (flags.find('C') > -1):
+            icon = 'cd.png'
+        if (flags.find('R') > -1):
+            icon = 'radio.png'
         add_item(name, playlist_info.group(1), icon)
+
 
 def add_reload():
     add_item('Reload Playlists', 'reload', 'reload.png')
 
+
 try:
     file = open('./playlists.txt', 'r')
-    out = unicode(file.read(), 'utf-8')
+    out = file.read()
     lists = out.splitlines()
 except IOError:
     lists = list()
 
-filter = unicode(argv[1], 'utf-8')
+filter = argv[1]
 disable_reload = len(argv) > 2 and argv[2] == 'false'
 flag_filter = argv[3] if len(argv) > 3 else ''
 
@@ -81,5 +87,5 @@ else:
     # Add Reload item
     add_reload()
 
-print '<?xml version="1.0"?>'
-print ET.tostring(root, 'utf-8')
+print('<?xml version="1.0"?>')
+print(ET.tostring(root, encoding='unicode'))

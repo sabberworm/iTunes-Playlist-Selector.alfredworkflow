@@ -1,6 +1,6 @@
 #!/usr/bin/osascript -l JavaScript
 
-var app = Application('iTunes');
+var app = Application('Music');
 app.includeStandardAdditions = true;
 
 function run(theId) {

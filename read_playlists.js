@@ -12,7 +12,7 @@ const FLAGS = {
 	cd: 'c'
 };
 
-var app = Application('iTunes');
+var app = Application('Music');
 app.includeStandardAdditions = true;
 
 var playlists = {};
